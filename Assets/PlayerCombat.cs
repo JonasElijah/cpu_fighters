@@ -9,6 +9,7 @@ public class PlayerCombat : MonoBehaviour
     public LayerMask character;
     public PlayerOneInput player1;
     public PlayerTwoInput player2;
+    
 
     private float timeSinceLastAttackOne = 0;
 
@@ -17,6 +18,7 @@ public class PlayerCombat : MonoBehaviour
     {
         player1 = GetComponent<PlayerOneInput>();
         player2 = GetComponent<PlayerTwoInput>();
+       
     }
 
     void Update()

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System.Collections;
 
 public class PlayerOneInput : MonoBehaviour
 {
@@ -8,9 +9,14 @@ public class PlayerOneInput : MonoBehaviour
     public GameObject healthBar;
     public Fighter fighter;
     public Slider slider;
+    public SpriteRenderer spriteRenderer;
+    private Color originalColor;
+ 
+
 
     public float maxHealth = 10.0f;
     public float currentHealth;
+    public float damageCooldown = 0.5f; 
 
     protected void Start()
     {
@@ -19,6 +25,9 @@ public class PlayerOneInput : MonoBehaviour
         healthBar = GameObject.FindWithTag("PlayerOneHealthBar");
         slider = healthBar.GetComponent<Slider>();
         // fighter = character.GetComponent<Fighter>();
+        if (spriteRenderer == null)
+            spriteRenderer = GetComponent<SpriteRenderer>(); 
+        originalColor = spriteRenderer.color; 
     }
 
     protected void Update()
@@ -41,6 +50,7 @@ public class PlayerOneInput : MonoBehaviour
     public void TakeDamage(float amount)
     {
         currentHealth -= amount;
+        StartCoroutine(FlashColor(damageCooldown));
         if (currentHealth <= 0)
         {
             //Die
@@ -57,6 +67,13 @@ public class PlayerOneInput : MonoBehaviour
     public Fighter GetFighter()
     {
         return fighter;
+    }
+
+    private IEnumerator FlashColor(float duration)
+    {
+        spriteRenderer.color = Color.red;
+        yield return new WaitForSeconds(duration); 
+        spriteRenderer.color = originalColor; 
     }
 
 

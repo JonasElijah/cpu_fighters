@@ -295,6 +295,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCombat: {fileID: 0}
+  IsBlocking: 0
   animationStateChangers:
   - {fileID: 8282488638639195896}
   isPlayerOne: 1
@@ -363,6 +364,8 @@ MonoBehaviour:
     m_Bits: 8
   player1: {fileID: 7629607232141224348}
   player2: {fileID: 0}
+  spriteRenderer: {fileID: 9169829857519252426}
+  damageCooldown: 0.5
 --- !u!70 &8228956075811959484
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

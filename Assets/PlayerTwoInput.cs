@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System.Collections;
 
 public class PlayerTwoInput : MonoBehaviour
 {
@@ -8,9 +9,14 @@ public class PlayerTwoInput : MonoBehaviour
     public GameObject healthBar;
     public Fighter fighter;
     public Slider slider;
+    public SpriteRenderer spriteRenderer;
+    private Color originalColor;
+
 
     public float maxHealth = 10.0f;
     public float currentHealth;
+    public float damageCooldown = 0.5f;
+
 
     protected void Start()
     {
@@ -19,6 +25,9 @@ public class PlayerTwoInput : MonoBehaviour
         slider = healthBar.GetComponent<Slider>();
         // fighter = character.GetComponent<Fighter>();
         //fighter.flipCharacter();
+        if (spriteRenderer == null)
+            spriteRenderer = GetComponent<SpriteRenderer>();
+        originalColor = spriteRenderer.color;
         fighter.isPlayerTwo();
     }
 
@@ -31,7 +40,7 @@ public class PlayerTwoInput : MonoBehaviour
             fighter.AttackOne("PlayerTwo");
         }
 
-        if(Input.GetButton("block_player2"))
+        if (Input.GetButton("block_player2"))
         {
             fighter.block(KeyCode.U);
         }
@@ -42,7 +51,7 @@ public class PlayerTwoInput : MonoBehaviour
     public void TakeDamage(float amount)
     {
         currentHealth -= amount;
-
+        StartCoroutine(FlashColor(damageCooldown));
         if (currentHealth <= 0)
         {
             //Die
@@ -54,5 +63,12 @@ public class PlayerTwoInput : MonoBehaviour
     public float GetHealth()
     {
         return currentHealth;
+    }
+
+    private IEnumerator FlashColor(float duration)
+    {
+        spriteRenderer.color = Color.red;
+        yield return new WaitForSeconds(duration);
+        spriteRenderer.color = originalColor;
     }
 }
