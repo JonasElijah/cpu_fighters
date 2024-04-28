@@ -30,6 +30,12 @@ public class PlayerTwoInput : MonoBehaviour
         {
             fighter.AttackOne("PlayerTwo");
         }
+
+        if(Input.GetButton("block_player2"))
+        {
+            fighter.block(KeyCode.U);
+        }
+
         slider.value = currentHealth;
     }
 

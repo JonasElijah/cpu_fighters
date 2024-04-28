@@ -17,6 +17,11 @@ public abstract class Fighter : MonoBehaviour
     protected bool isGrounded;
     protected bool touchingCharacter;
     private float currentVelocity;
+    public bool IsBlocking;
+    protected KeyCode blockKey;
+
+
+
 
     // Nerd Info
     [Header("Nerd Info")]
@@ -28,6 +33,7 @@ public abstract class Fighter : MonoBehaviour
     [SerializeField] protected Animator animator;
     [SerializeField] protected LayerMask ground;
     [SerializeField] protected LayerMask character;
+
 
     protected Rigidbody2D rb;
 
@@ -57,6 +63,15 @@ public abstract class Fighter : MonoBehaviour
                 asc.ChangeAnimationState("Idle");
             }
         }
+
+        if (Input.GetKeyUp(blockKey))
+        {
+            {
+                IsBlocking = false;
+                Debug.Log("Player stopped blocking.");
+            }
+        }
+
     }
 
     private void HandleJumping(bool jumpInput, bool jumpHoldInput, KeyCode jumpCode)
@@ -86,13 +101,14 @@ public abstract class Fighter : MonoBehaviour
 
         if (Input.GetKeyUp(jumpCode))
         {
-            Debug.Log("HELLLOO");
             isJumping = false;
         }
     }
 
     public void HandleMovement(float horizontalInput, bool jumpInput, bool jumpHoldInput, KeyCode jumpCode)
     {
+        if(IsBlocking) return;
+
         if (playerCombat)
         {
             Flip(horizontalInput);
@@ -109,7 +125,14 @@ public abstract class Fighter : MonoBehaviour
 
     public void AttackOne(String attack)
     {
+        if(IsBlocking) return;
         playerCombat.AttackOne(attack);
+    }
+
+    public void block(KeyCode blockCode)
+    {
+        blockKey = blockCode;
+        playerCombat.TryBlock(blockCode);
     }
 
     public bool IsIdle()
@@ -126,7 +149,6 @@ public abstract class Fighter : MonoBehaviour
         isMoving = Mathf.Abs(horizontalInput) > 0.01f;
         if (isMoving)
         {
-            Debug.Log(isMoving);
             foreach (AnimationStateChanger asc in animationStateChangers)
             {
                 asc.ChangeAnimationState("Walk");
@@ -140,6 +162,11 @@ public abstract class Fighter : MonoBehaviour
         {
             flipCharacter();
         }
+    }
+
+    public bool CanBlock()
+    {
+        return !isJumping;
     }
 
     // public void setPlayer(bool x)
@@ -162,7 +189,6 @@ public abstract class Fighter : MonoBehaviour
 
     public abstract float getAttackOneCooldown();
     public abstract float getAttackOneDamage();
-
 
 }
 

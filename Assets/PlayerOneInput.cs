@@ -29,6 +29,12 @@ public class PlayerOneInput : MonoBehaviour
         {
             fighter.AttackOne("PlayerOne");
         }
+
+        if(Input.GetButton("block_player1"))
+        {
+            fighter.block(KeyCode.E);
+        }
+
         slider.value = currentHealth;
     }
 

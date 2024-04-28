@@ -10,8 +10,8 @@ public class PlayerCombat : MonoBehaviour
     public PlayerOneInput player1;
     public PlayerTwoInput player2;
 
-    //public float attackOneCooldown = 1f; // Cooldown period in seconds
-    private float timeSinceLastAttackOne = 0; // Time since last attack
+    private float timeSinceLastAttackOne = 0;
+
 
     void Start()
     {
@@ -29,6 +29,23 @@ public class PlayerCombat : MonoBehaviour
         if (player2 && timeSinceLastAttackOne < player2.fighter.getAttackOneCooldown())
         {
             timeSinceLastAttackOne += Time.deltaTime;
+        }
+    }
+
+
+    public void TryBlock(KeyCode blockCode)
+    {
+
+        if (player1)
+        {
+            player1.fighter.IsBlocking = true;
+            Debug.Log("Player One Block: " + player1.fighter.IsBlocking);
+        }
+
+        if (player2)
+        {
+            player2.fighter.IsBlocking = true;
+            Debug.Log("Player Two Block: " + player2.fighter.IsBlocking);
         }
     }
 
@@ -53,9 +70,14 @@ public class PlayerCombat : MonoBehaviour
             attackPoint = player1.fighter.attackPoint;
             foreach (Collider2D enemy in hitEnemies)
             {
-                if (enemy.tag == "PlayerTwo")
+                PlayerTwoInput playertwo = enemy.GetComponent<PlayerTwoInput>();
+                if (playertwo && enemy.tag == "PlayerTwo" && !playertwo.fighter.IsBlocking)
                 {
-                    enemy.GetComponent<PlayerTwoInput>().TakeDamage(player1.fighter.getAttackOneDamage());
+                    playertwo.TakeDamage(player1.fighter.getAttackOneDamage());
+                }
+                else if (playertwo && enemy.tag == "PlayerTwo" && playertwo.fighter.IsBlocking)
+                {
+                    playertwo.TakeDamage(player1.fighter.getAttackOneDamage()/5);
                 }
             }
         }
@@ -65,9 +87,14 @@ public class PlayerCombat : MonoBehaviour
             attackPoint = player2.fighter.attackPoint;
             foreach (Collider2D enemy in hitEnemies)
             {
-                if (enemy.tag == "PlayerOne")
+                PlayerOneInput playerone = enemy.GetComponent<PlayerOneInput>();
+                if (playerone && enemy.tag == "PlayerOne" && !playerone.fighter.IsBlocking)
                 {
-                    enemy.GetComponent<PlayerOneInput>().TakeDamage(player2.fighter.getAttackOneDamage());
+                    playerone.TakeDamage(player2.fighter.getAttackOneDamage());
+                }
+                else if (playerone && enemy.tag == "PlayerOne" && playerone.fighter.IsBlocking)
+                {
+                    playerone.TakeDamage(player2.fighter.getAttackOneDamage()/5);
                 }
             }
         }

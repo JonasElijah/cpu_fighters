@@ -5,6 +5,7 @@ public class MatteoFighter : Fighter
 {
     protected float attackOneCooldown = 1f; 
     protected float attackOneDamage = 0.5f;
+
     
     public MatteoFighter()
     {
@@ -22,4 +23,5 @@ public class MatteoFighter : Fighter
     {
         return this.attackOneDamage;
     }
+
 }
