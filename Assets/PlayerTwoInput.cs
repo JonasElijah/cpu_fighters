@@ -28,7 +28,7 @@ public class PlayerTwoInput : MonoBehaviour
         fighter.HandleMovement(Input.GetAxisRaw("Horizontal_Player2"), Input.GetButtonDown("Jump_Player2"), Input.GetButton("Jump_Player2"), KeyCode.I);
         if (Input.GetButtonDown("Attack1_Player2"))
         {
-            fighter.Attack("PlayerTwo");
+            fighter.AttackOne("PlayerTwo");
         }
         slider.value = currentHealth;
     }

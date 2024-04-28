@@ -2,22 +2,21 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 
-public class Fighter : MonoBehaviour
+public abstract class Fighter : MonoBehaviour
 {
     // Stats
     public PlayerCombat playerCombat;
-    protected float speed = 10.0f;
-    protected float jumpForce = 10.0f;
+    protected float speed;
+    protected float jumpForce;
     protected float moveInput;
     protected bool isFacingRight = true;
     protected bool isJumping;
     protected float jumpTimeCounter;
-    protected float jumpTime = 0.25f;
+    protected float jumpTime;
     protected bool isMoving;
     protected bool isGrounded;
     protected bool touchingCharacter;
     private float currentVelocity;
-    private float smoothing = 0.05f;
 
     // Nerd Info
     [Header("Nerd Info")]
@@ -108,9 +107,9 @@ public class Fighter : MonoBehaviour
     }
 
 
-    public void Attack(String attack)
+    public void AttackOne(String attack)
     {
-        playerCombat.Attack(attack);
+        playerCombat.AttackOne(attack);
     }
 
     public bool IsIdle()
@@ -121,7 +120,7 @@ public class Fighter : MonoBehaviour
     protected void MovePlayer(Vector3 direction, float horizontalInput)
     {
         float targetSpeed = horizontalInput * speed;
-        float smoothedSpeed = Mathf.SmoothDamp(rb.velocity.x, targetSpeed, ref currentVelocity, smoothing);
+        float smoothedSpeed = Mathf.SmoothDamp(rb.velocity.x, targetSpeed, ref currentVelocity, 0.05f);
         rb.velocity = new Vector3(smoothedSpeed, rb.velocity.y);
 
         isMoving = Mathf.Abs(horizontalInput) > 0.01f;
@@ -160,5 +159,10 @@ public class Fighter : MonoBehaviour
     {
         isFacingRight = !isFacingRight;
     }
+
+    public abstract float getAttackOneCooldown();
+    public abstract float getAttackOneDamage();
+
+
 }
 

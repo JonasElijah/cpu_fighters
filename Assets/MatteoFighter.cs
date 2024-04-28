@@ -3,6 +3,23 @@ using System.Collections.Generic;
 
 public class MatteoFighter : Fighter
 {
-    // You can add specific properties or methods for this type of fighter here
-    // You can also override methods from the base class if needed
+    protected float attackOneCooldown = 1f; 
+    protected float attackOneDamage = 0.5f;
+    
+    public MatteoFighter()
+    {
+        this.speed = 10.0f;
+        this.jumpForce = 10.0f;
+        this.jumpTime = 0.25f;
+    }
+
+    public override float getAttackOneCooldown()
+    {
+       return this.attackOneCooldown;
+    }
+
+    public override float getAttackOneDamage()
+    {
+        return this.attackOneDamage;
+    }
 }
