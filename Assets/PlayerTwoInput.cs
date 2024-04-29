@@ -40,6 +40,11 @@ public class PlayerTwoInput : MonoBehaviour
             fighter.AttackOne("PlayerTwo");
         }
 
+        if (Input.GetButtonDown("Attack2_Player2"))
+        {
+            fighter.AttackTwo();
+        }
+
         if (Input.GetButton("block_player2"))
         {
             fighter.block(KeyCode.U);

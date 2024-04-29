@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &588515052769701713
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2844771330509991209}
+  m_Layer: 3
+  m_Name: projectilePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2844771330509991209
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 588515052769701713}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.111, y: 0.042, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3431328522743171358}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1306137171354245979
 GameObject:
   m_ObjectHideFlags: 0
@@ -47,10 +78,10 @@ GameObject:
   - component: {fileID: 8515100820933258401}
   - component: {fileID: 946237162523653662}
   - component: {fileID: 3622689818472709119}
-  - component: {fileID: 4289448642552699152}
   - component: {fileID: 8228956075811959484}
   - component: {fileID: 7642987175865686006}
   - component: {fileID: 8282488638639195896}
+  - component: {fileID: 3303969892643987349}
   m_Layer: 3
   m_Name: MatteoFighter_PlayerTwo
   m_TagString: PlayerTwo
@@ -73,6 +104,7 @@ Transform:
   m_Children:
   - {fileID: 442812168284004315}
   - {fileID: 855559646678318834}
+  - {fileID: 2844771330509991209}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &9169829857519252426
@@ -282,6 +314,7 @@ MonoBehaviour:
   - {fileID: 8282488638639195896}
   isPlayerOne: 0
   feetPos: {fileID: 442812168284004315}
+  projectilePos: {fileID: 0}
   checkRadius: 0
   attackPoint: {fileID: 855559646678318834}
   animator: {fileID: 0}
@@ -342,29 +375,9 @@ MonoBehaviour:
   healthBar: {fileID: 0}
   fighter: {fileID: 8515100820933258401}
   slider: {fileID: 0}
+  spriteRenderer: {fileID: 9169829857519252426}
   maxHealth: 10
   currentHealth: 0
---- !u!114 &4289448642552699152
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2097953814057205012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1137e8741af0547a8bbeeb5f500c2265, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsPunching: 0
-  attackPoint: {fileID: 855559646678318834}
-  attackRange: 0.5
-  character:
-    serializedVersion: 2
-    m_Bits: 8
-  player1: {fileID: 0}
-  player2: {fileID: 3622689818472709119}
-  spriteRenderer: {fileID: 9169829857519252426}
   damageCooldown: 0.5
 --- !u!70 &8228956075811959484
 CapsuleCollider2D:
@@ -436,6 +449,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 7642987175865686006}
   currentState: 
+--- !u!114 &3303969892643987349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2097953814057205012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 798aae47fd92d4d90928bc946b927c81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsPunching: 0
+  attackPoint: {fileID: 855559646678318834}
+  projecttilePoint: {fileID: 2844771330509991209}
+  attackRange: 0.5
+  character:
+    serializedVersion: 2
+    m_Bits: 8
+  player2: {fileID: 3622689818472709119}
+  projectile: {fileID: 7266875641970085025, guid: fc35ba76d19cc4eb48662af08fd799d1, type: 3}
 --- !u!1 &8269354150023743215
 GameObject:
   m_ObjectHideFlags: 0

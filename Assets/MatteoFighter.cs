@@ -5,8 +5,8 @@ public class MatteoFighter : Fighter
 {
     protected float attackOneCooldown = 1f; 
     protected float attackOneDamage = 0.5f;
+    protected float projectTileSpeed = 10.0f;
 
-    
     public MatteoFighter()
     {
         this.speed = 10.0f;
@@ -22,6 +22,11 @@ public class MatteoFighter : Fighter
     public override float getAttackOneDamage()
     {
         return this.attackOneDamage;
+    }
+
+    public override float getProjectileSpeed()
+    {
+        return this.projectTileSpeed;
     }
 
 }

@@ -20,14 +20,12 @@ public abstract class Fighter : MonoBehaviour
     public bool IsBlocking;
     protected KeyCode blockKey;
 
-
-
-
     // Nerd Info
     [Header("Nerd Info")]
     [SerializeField] protected List<AnimationStateChanger> animationStateChangers;
     public bool isPlayerOne;
     [SerializeField] protected Transform feetPos;
+    [SerializeField] protected Transform projectilePos;
     [SerializeField] protected float checkRadius;
     public Transform attackPoint;
     [SerializeField] protected Animator animator;
@@ -107,7 +105,7 @@ public abstract class Fighter : MonoBehaviour
 
     public void HandleMovement(float horizontalInput, bool jumpInput, bool jumpHoldInput, KeyCode jumpCode)
     {
-        if(IsBlocking) return;
+        if (IsBlocking) return;
 
         if (playerCombat)
         {
@@ -125,9 +123,16 @@ public abstract class Fighter : MonoBehaviour
 
     public void AttackOne(String attack)
     {
-        if(IsBlocking) return;
-        playerCombat.AttackOne(attack);
+        if (IsBlocking) return;
+        playerCombat.AttackOne();
     }
+
+    public void AttackTwo()
+    {
+        if (IsBlocking) return;
+        playerCombat.AttackTwo();
+    }
+
 
     public void block(KeyCode blockCode)
     {
@@ -187,8 +192,16 @@ public abstract class Fighter : MonoBehaviour
         isFacingRight = !isFacingRight;
     }
 
+    public Vector3 getPosition()
+    {
+        return rb.position;
+    }
+
+
     public abstract float getAttackOneCooldown();
     public abstract float getAttackOneDamage();
+    public abstract float getProjectileSpeed();
+
 
 }
 

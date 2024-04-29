@@ -47,10 +47,10 @@ GameObject:
   - component: {fileID: 7629607232141224348}
   - component: {fileID: 8515100820933258401}
   - component: {fileID: 946237162523653662}
-  - component: {fileID: 4289448642552699152}
   - component: {fileID: 8228956075811959484}
   - component: {fileID: 7642987175865686006}
   - component: {fileID: 8282488638639195896}
+  - component: {fileID: 1676367713854209297}
   m_Layer: 3
   m_Name: MatteoFighter_PlayerOne
   m_TagString: PlayerOne
@@ -73,6 +73,7 @@ Transform:
   m_Children:
   - {fileID: 442812168284004315}
   - {fileID: 855559646678318834}
+  - {fileID: 4294380169105451186}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &9169829857519252426
@@ -280,8 +281,10 @@ MonoBehaviour:
   healthBar: {fileID: 0}
   fighter: {fileID: 8515100820933258401}
   slider: {fileID: 0}
+  spriteRenderer: {fileID: 9169829857519252426}
   maxHealth: 10
   currentHealth: 0
+  damageCooldown: 0.5
 --- !u!114 &8515100820933258401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,6 +303,7 @@ MonoBehaviour:
   - {fileID: 8282488638639195896}
   isPlayerOne: 1
   feetPos: {fileID: 442812168284004315}
+  projectilePos: {fileID: 4294380169105451186}
   checkRadius: 0
   attackPoint: {fileID: 855559646678318834}
   animator: {fileID: 7642987175865686006}
@@ -344,28 +348,6 @@ CapsuleCollider2D:
   m_Offset: {x: -0.0075109587, y: 0}
   m_Size: {x: 0.2297674, y: 0.5}
   m_Direction: 0
---- !u!114 &4289448642552699152
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2097953814057205012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1137e8741af0547a8bbeeb5f500c2265, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsPunching: 0
-  attackPoint: {fileID: 855559646678318834}
-  attackRange: 0.5
-  character:
-    serializedVersion: 2
-    m_Bits: 8
-  player1: {fileID: 7629607232141224348}
-  player2: {fileID: 0}
-  spriteRenderer: {fileID: 9169829857519252426}
-  damageCooldown: 0.5
 --- !u!70 &8228956075811959484
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -436,6 +418,58 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 7642987175865686006}
   currentState: 
+--- !u!114 &1676367713854209297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2097953814057205012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f79d1238e74b4491a819543a8ab2414f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsPunching: 0
+  attackPoint: {fileID: 855559646678318834}
+  projecttilePoint: {fileID: 4294380169105451186}
+  attackRange: 0.5
+  character:
+    serializedVersion: 2
+    m_Bits: 8
+  player1: {fileID: 7629607232141224348}
+  projectile: {fileID: 7266875641970085025, guid: fc35ba76d19cc4eb48662af08fd799d1, type: 3}
+--- !u!1 &2713046261165029579
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4294380169105451186}
+  m_Layer: 3
+  m_Name: projectilePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4294380169105451186
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2713046261165029579}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.111, y: 0.042, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3431328522743171358}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8269354150023743215
 GameObject:
   m_ObjectHideFlags: 0

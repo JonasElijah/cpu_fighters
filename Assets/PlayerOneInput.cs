@@ -11,12 +11,10 @@ public class PlayerOneInput : MonoBehaviour
     public Slider slider;
     public SpriteRenderer spriteRenderer;
     private Color originalColor;
- 
-
 
     public float maxHealth = 10.0f;
     public float currentHealth;
-    public float damageCooldown = 0.5f; 
+    public float damageCooldown = 0.5f;
 
     protected void Start()
     {
@@ -26,8 +24,8 @@ public class PlayerOneInput : MonoBehaviour
         slider = healthBar.GetComponent<Slider>();
         // fighter = character.GetComponent<Fighter>();
         if (spriteRenderer == null)
-            spriteRenderer = GetComponent<SpriteRenderer>(); 
-        originalColor = spriteRenderer.color; 
+            spriteRenderer = GetComponent<SpriteRenderer>();
+        originalColor = spriteRenderer.color;
     }
 
     protected void Update()
@@ -39,7 +37,12 @@ public class PlayerOneInput : MonoBehaviour
             fighter.AttackOne("PlayerOne");
         }
 
-        if(Input.GetButton("block_player1"))
+        if (Input.GetButtonDown("Attack2_Player1"))
+        {
+            fighter.AttackTwo();
+        }
+
+        if (Input.GetButton("block_player1"))
         {
             fighter.block(KeyCode.E);
         }
@@ -72,8 +75,8 @@ public class PlayerOneInput : MonoBehaviour
     private IEnumerator FlashColor(float duration)
     {
         spriteRenderer.color = Color.red;
-        yield return new WaitForSeconds(duration); 
-        spriteRenderer.color = originalColor; 
+        yield return new WaitForSeconds(duration);
+        spriteRenderer.color = originalColor;
     }
 
 
