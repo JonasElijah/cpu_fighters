@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class Health : MonoBehaviour
 {
     public int maxHealth = 10;

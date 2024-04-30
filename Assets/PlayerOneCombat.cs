@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerOneCombat : PlayerCombat
 {
     private float timeSinceLastAttackOne = 0;
+    private float timeSinceLastAttackTwo = 0;
     public PlayerOneInput player1;
     public GameObject projectile;
 
@@ -18,6 +19,11 @@ public class PlayerOneCombat : PlayerCombat
         if (timeSinceLastAttackOne < player1.fighter.getAttackOneCooldown())
         {
             timeSinceLastAttackOne += Time.deltaTime;
+        }
+
+        if (timeSinceLastAttackTwo < player1.fighter.getAttackTwoCooldown())
+        {
+            timeSinceLastAttackTwo += Time.deltaTime;
         }
     }
 
@@ -59,6 +65,7 @@ public class PlayerOneCombat : PlayerCombat
 
     public override void TryBlock(KeyCode blockCode)
     {
+        
         if (player1)
         {
             player1.fighter.IsBlocking = true;
@@ -68,6 +75,11 @@ public class PlayerOneCombat : PlayerCombat
 
     public override void AttackTwo()
     {
+        if (timeSinceLastAttackTwo < player1.fighter.getAttackTwoCooldown())
+        {
+            return;
+        }
+        timeSinceLastAttackTwo = 0;
         Vector3 firingDirection = player1.transform.localScale.x < 0 ? Vector3.left : Vector3.right;
         Quaternion firingRotation = Quaternion.LookRotation(Vector3.forward, firingDirection);
         GameObject projectileObject = Instantiate(projectile, projecttilePoint.position, firingRotation);
@@ -75,7 +87,5 @@ public class PlayerOneCombat : PlayerCombat
         rb.AddForce(firingDirection * player1.fighter.getProjectileSpeed(), ForceMode2D.Impulse);
         Destroy(projectileObject, 15);
     }
-
-
 
 }

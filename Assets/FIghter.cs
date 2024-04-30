@@ -7,6 +7,7 @@ public abstract class Fighter : MonoBehaviour
     // Stats
     public PlayerCombat playerCombat;
     protected float speed;
+    protected float acceleration;
     protected float jumpForce;
     protected float moveInput;
     protected bool isFacingRight = true;
@@ -18,6 +19,8 @@ public abstract class Fighter : MonoBehaviour
     protected bool touchingCharacter;
     private float currentVelocity;
     public bool IsBlocking;
+    private int jumpCount = 0; 
+    private int maxJumps = 1; 
     protected KeyCode blockKey;
 
     // Nerd Info
@@ -69,39 +72,52 @@ public abstract class Fighter : MonoBehaviour
                 Debug.Log("Player stopped blocking.");
             }
         }
-
     }
+
+    
 
     private void HandleJumping(bool jumpInput, bool jumpHoldInput, KeyCode jumpCode)
     {
-        if (jumpInput && isGrounded && !playerCombat.IsPunching)
+        if (jumpInput && jumpCount < maxJumps && !playerCombat.IsPunching)
         {
             isJumping = true;
             jumpTimeCounter = jumpTime;
 
             float horizontalVelocity = rb.velocity.x;
             rb.velocity = new Vector2(horizontalVelocity, jumpForce);
+            rb.drag = 0;  
+
+            jumpCount++;  
         }
 
-        if (jumpHoldInput && isJumping)
+        if (jumpHoldInput && isJumping && jumpTimeCounter > 0)
         {
-            if (jumpTimeCounter > 0)
-            {
-                float horizontalVelocity = rb.velocity.x;
-                rb.velocity = new Vector2(horizontalVelocity, jumpForce);
-                jumpTimeCounter -= Time.deltaTime;
-            }
-            else
-            {
-                isJumping = false;
-            }
+            float horizontalVelocity = rb.velocity.x;
+            rb.velocity = new Vector2(horizontalVelocity, jumpForce);
+            jumpTimeCounter -= Time.deltaTime;
         }
-
-        if (Input.GetKeyUp(jumpCode))
+        else
         {
             isJumping = false;
+            rb.drag = 1;  
+        }
+
+        if (Input.GetKeyUp(jumpCode) && isJumping)
+        {
+            isJumping = false;
+            if (rb.velocity.y > 0)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);  
+            }
+            rb.drag = 1;  
+        }
+
+        if (isGrounded)
+        {
+            jumpCount = 0;
         }
     }
+
 
     public void HandleMovement(float horizontalInput, bool jumpInput, bool jumpHoldInput, KeyCode jumpCode)
     {
@@ -147,9 +163,10 @@ public abstract class Fighter : MonoBehaviour
 
     protected void MovePlayer(Vector3 direction, float horizontalInput)
     {
-        float targetSpeed = horizontalInput * speed;
-        float smoothedSpeed = Mathf.SmoothDamp(rb.velocity.x, targetSpeed, ref currentVelocity, 0.05f);
-        rb.velocity = new Vector3(smoothedSpeed, rb.velocity.y);
+        float maxSpeed = speed; 
+        float targetSpeed = horizontalInput * maxSpeed;
+        float currentSpeed = Mathf.MoveTowards(rb.velocity.x, targetSpeed, acceleration * Time.deltaTime);
+        rb.velocity = new Vector3(currentSpeed, rb.velocity.y);
 
         isMoving = Mathf.Abs(horizontalInput) > 0.01f;
         if (isMoving)
@@ -160,6 +177,7 @@ public abstract class Fighter : MonoBehaviour
             }
         }
     }
+
 
     protected void Flip(float horizontalInput)
     {
@@ -201,6 +219,7 @@ public abstract class Fighter : MonoBehaviour
     public abstract float getAttackOneCooldown();
     public abstract float getAttackOneDamage();
     public abstract float getProjectileSpeed();
+    public abstract float getAttackTwoCooldown();
 
 
 }

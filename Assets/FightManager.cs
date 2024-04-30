@@ -7,6 +7,8 @@ public class FightManager : MonoBehaviour
 
     void Start()
     {
+        GameManager.playerOneHealth = 10;
+        GameManager.playerTwoHealth = 10;
         InstantiatePlayers();
     }
 

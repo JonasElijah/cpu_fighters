@@ -431,6 +431,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsPunching: 0
+  IsShooting: 0
   attackPoint: {fileID: 855559646678318834}
   projecttilePoint: {fileID: 4294380169105451186}
   attackRange: 0.5
