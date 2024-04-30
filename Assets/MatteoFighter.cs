@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class MatteoFighter : Fighter
-{
+{   
     protected float attackOneCooldown = 1f;
     protected float attackTwoCooldown = 1.5f;
     protected float attackOneDamage = 0.5f;

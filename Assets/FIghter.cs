@@ -28,6 +28,7 @@ public abstract class Fighter : MonoBehaviour
     [SerializeField] protected List<AnimationStateChanger> animationStateChangers;
     public bool isPlayerOne;
     [SerializeField] protected Transform feetPos;
+    [SerializeField] public Transform playerIndicatePos;
     [SerializeField] protected Transform projectilePos;
     [SerializeField] protected float checkRadius;
     public Transform attackPoint;

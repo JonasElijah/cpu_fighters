@@ -10,6 +10,7 @@ public class PlayerOneInput : MonoBehaviour
     public Slider slider;
     public SpriteRenderer spriteRenderer;
     private Color originalColor;
+    public GameObject playerIndicator;
 
     public float maxHealth = 10.0f;
     public float currentHealth;
@@ -20,6 +21,8 @@ public class PlayerOneInput : MonoBehaviour
         currentHealth = maxHealth;
         // character = GetComponent<FightManager>().characters[CharacterSelectionHandler.playerOneCharacter];
         healthBar = GameObject.FindWithTag("PlayerOneHealthBar");
+        playerIndicator = GameObject.FindWithTag("PlayerOneIndicator");
+        playerIndicator.GetComponent<PlayerIndicator>().target = fighter.playerIndicatePos;
         slider = healthBar.GetComponent<Slider>();
         // fighter = character.GetComponent<Fighter>();
         if (spriteRenderer == null)

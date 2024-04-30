@@ -10,7 +10,7 @@ public class PlayerTwoInput : MonoBehaviour
     public Slider slider;
     public SpriteRenderer spriteRenderer;
     private Color originalColor;
-
+    public GameObject playerIndicator;
 
     public float maxHealth = 10.0f;
     public float currentHealth;
@@ -21,6 +21,8 @@ public class PlayerTwoInput : MonoBehaviour
     {
         currentHealth = maxHealth;
         healthBar = GameObject.FindWithTag("PlayerTwoHealthBar");
+        playerIndicator = GameObject.FindWithTag("PlayerTwoIndicator");
+        playerIndicator.GetComponent<PlayerIndicator>().target = fighter.playerIndicatePos;
         slider = healthBar.GetComponent<Slider>();
         // fighter = character.GetComponent<Fighter>();
         //fighter.flipCharacter();
