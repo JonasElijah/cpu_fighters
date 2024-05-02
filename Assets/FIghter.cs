@@ -35,20 +35,31 @@ public abstract class Fighter : MonoBehaviour
     [SerializeField] protected Animator animator;
     [SerializeField] protected LayerMask ground;
     [SerializeField] protected LayerMask character;
+    public SpriteRenderer blockSprite;
 
 
-    protected Rigidbody2D rb;
+    public Rigidbody2D rb;
 
     protected void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         playerCombat = GetComponent<PlayerCombat>();
+        blockSprite.enabled =false;
+    
     }
 
     protected void Update()
     {
         isGrounded = Physics2D.OverlapCircle(feetPos.position, 0.5f, ground);
+        if(IsBlocking)
+        {
+            blockSprite.enabled =true;
+        }
+        else
+        {
+            blockSprite.enabled =false;
+        }
 
         if (playerCombat.IsPunching)
         {
@@ -72,6 +83,14 @@ public abstract class Fighter : MonoBehaviour
                 IsBlocking = false;
                 Debug.Log("Player stopped blocking.");
             }
+        }
+    }
+
+    public void playAttackOneAnimation()
+    {
+        foreach (AnimationStateChanger asc in animationStateChangers)
+        {
+            asc.ChangeAnimationState("Punching");
         }
     }
 
@@ -123,22 +142,21 @@ public abstract class Fighter : MonoBehaviour
     public void HandleMovement(float horizontalInput, bool jumpInput, bool jumpHoldInput, KeyCode jumpCode)
     {
         if (IsBlocking) return;
+        Debug.Log("Horizontal Input: " + horizontalInput);
 
         if (playerCombat)
         {
-            Flip(horizontalInput);
             moveInput = horizontalInput;
 
-            Vector3 input = new Vector3(moveInput, rb.velocity.y, 0);
             if (!playerCombat.IsPunching)
-                MovePlayer(input, horizontalInput);
+                MovePlayer(horizontalInput);
 
             HandleJumping(jumpInput, jumpHoldInput, jumpCode);
         }
     }
 
 
-    public void AttackOne(String attack)
+    public void AttackOne()
     {
         if (IsBlocking) return;
         playerCombat.AttackOne();
@@ -162,8 +180,9 @@ public abstract class Fighter : MonoBehaviour
         return !(playerCombat.IsPunching || isJumping || isMoving);
     }
 
-    protected void MovePlayer(Vector3 direction, float horizontalInput)
+    public void MovePlayer(float horizontalInput)
     {
+        Flip(horizontalInput);
         float maxSpeed = speed; 
         float targetSpeed = horizontalInput * maxSpeed;
         float currentSpeed = Mathf.MoveTowards(rb.velocity.x, targetSpeed, acceleration * Time.deltaTime);

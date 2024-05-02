@@ -21,9 +21,9 @@ public class FightManager : MonoBehaviour
     }
 
     private void InstantiatePlayers()
-{
-    GameObject playerOne = Instantiate(characters[CharacterSelectionHandler.playerOneCharacter], new Vector3(-5, 0, 0), Quaternion.identity);
-    GameObject playerTwo = Instantiate(characters[CharacterSelectionHandler.playerTwoCharacter], new Vector3(5, 0, 0), Quaternion.identity);
-}
+    {
+        GameObject playerOne = Instantiate(characters[CharacterSelectionHandler.playerOneCharacter], new Vector3(-5, 0, 0), Quaternion.identity);
+        GameObject playerTwo = Instantiate(characters[CharacterSelectionHandler.playerTwoCharacter], new Vector3(5, 0, 0), Quaternion.identity);
+    }
 
 }

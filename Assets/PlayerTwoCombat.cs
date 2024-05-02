@@ -32,10 +32,10 @@ public class PlayerTwoCombat : PlayerCombat
         {
             return;
         }
+        
 
         IsPunching = true;
-        timeSinceLastAttackTwo = 0;
-
+        timeSinceLastAttackOne = 0;
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, character);
         foreach (Collider2D enemy in hitEnemies)
         {
@@ -46,6 +46,7 @@ public class PlayerTwoCombat : PlayerCombat
                 playerOne.TakeDamage(damage);
             }
         }
+
     }
 
     public override void TryBlock(KeyCode blockCode)
@@ -53,7 +54,6 @@ public class PlayerTwoCombat : PlayerCombat
         if (player2)
         {
             player2.fighter.IsBlocking = true;
-            Debug.Log("Player One Block: " + player2.fighter.IsBlocking);
         }
     }
 

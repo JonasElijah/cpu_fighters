@@ -2,15 +2,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class PlayerOneInput : MonoBehaviour
+public class PlayerOneInput : PlayerInput
 {
-    public GameObject character;
-    public GameObject healthBar;
-    public Fighter fighter;
-    public Slider slider;
-    public SpriteRenderer spriteRenderer;
-    private Color originalColor;
-    public GameObject playerIndicator;
+    
 
     public float maxHealth = 10.0f;
     public float currentHealth;
@@ -36,7 +30,7 @@ public class PlayerOneInput : MonoBehaviour
         fighter.HandleMovement(Input.GetAxisRaw("Horizontal_Player1"), Input.GetButtonDown("Jump_Player1"), Input.GetButton("Jump_Player1"), KeyCode.Space);
         if (Input.GetButtonDown("Attack1_Player1"))
         {
-            fighter.AttackOne("PlayerOne");
+            fighter.AttackOne();
         }
 
         if (Input.GetButtonDown("Attack2_Player1"))
@@ -52,7 +46,7 @@ public class PlayerOneInput : MonoBehaviour
         slider.value = currentHealth;
     }
 
-    public void TakeDamage(float amount)
+    public override void TakeDamage(float amount)
     {
         currentHealth -= amount;
         StartCoroutine(FlashColor(damageCooldown));

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class PlayerOneCombat : PlayerCombat
@@ -23,13 +22,16 @@ public class PlayerOneCombat : PlayerCombat
 
         if (timeSinceLastAttackTwo < player1.fighter.getAttackTwoCooldown())
         {
+            IsShooting = false;
             timeSinceLastAttackTwo += Time.deltaTime;
         }
+
     }
 
 
     public override void AttackOne()
     {
+
         if (IsPunching || timeSinceLastAttackOne < player1.fighter.getAttackOneCooldown())
         {
             return;
@@ -65,7 +67,7 @@ public class PlayerOneCombat : PlayerCombat
 
     public override void TryBlock(KeyCode blockCode)
     {
-        
+        player1.fighter.rb.velocity = new Vector3(0, player1.fighter.rb.velocity.y);;
         if (player1)
         {
             player1.fighter.IsBlocking = true;
@@ -79,6 +81,7 @@ public class PlayerOneCombat : PlayerCombat
         {
             return;
         }
+        IsShooting = true;
         timeSinceLastAttackTwo = 0;
         Vector3 firingDirection = player1.transform.localScale.x < 0 ? Vector3.left : Vector3.right;
         Quaternion firingRotation = Quaternion.LookRotation(Vector3.forward, firingDirection);
