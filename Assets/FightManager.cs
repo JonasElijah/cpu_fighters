@@ -3,7 +3,12 @@ using UnityEngine.SceneManagement;
 
 public class FightManager : MonoBehaviour
 {
-    public GameObject[] characters;
+    public GameObject[] P1;
+    public GameObject[] P2;
+
+    public Transform LeftLedge;
+    public Transform RightLedge;
+    public Transform FallZone;
 
     void Start()
     {
@@ -22,8 +27,9 @@ public class FightManager : MonoBehaviour
 
     private void InstantiatePlayers()
     {
-        GameObject playerOne = Instantiate(characters[CharacterSelectionHandler.playerOneCharacter], new Vector3(-5, 0, 0), Quaternion.identity);
-        GameObject playerTwo = Instantiate(characters[CharacterSelectionHandler.playerTwoCharacter], new Vector3(5, 0, 0), Quaternion.identity);
+        GameObject playerOne = Instantiate(P1[CharacterSelectionHandler.playerOneCharacter], new Vector3(-5, 0, 0), Quaternion.identity);
+        GameObject playerTwo = Instantiate(P2[CharacterSelectionHandler.playerTwoCharacter], new Vector3(5, 0, 0), Quaternion.identity);
+        playerTwo.GetComponent<PlayerTwoInput>().isAI = CharacterSelectionHandler.playerTwoAI;
     }
 
 }

@@ -13,6 +13,9 @@ TagManager:
   - PlayerTwoHealthBar
   - PlayerTwoIndicator
   - PlayerOneIndicator
+  - RL
+  - LL
+  - FZ
   layers:
   - Default
   - TransparentFX

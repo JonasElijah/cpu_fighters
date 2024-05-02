@@ -43,6 +43,7 @@ public abstract class Fighter : MonoBehaviour
     protected void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        rb.mass = 900;
         animator = GetComponent<Animator>();
         playerCombat = GetComponent<PlayerCombat>();
         blockSprite.enabled =false;

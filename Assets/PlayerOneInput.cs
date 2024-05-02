@@ -4,8 +4,6 @@ using System.Collections;
 
 public class PlayerOneInput : PlayerInput
 {
-    
-
     public float maxHealth = 10.0f;
     public float currentHealth;
     public float damageCooldown = 0.5f;
@@ -74,6 +72,4 @@ public class PlayerOneInput : PlayerInput
         yield return new WaitForSeconds(duration);
         spriteRenderer.color = originalColor;
     }
-
-
 }

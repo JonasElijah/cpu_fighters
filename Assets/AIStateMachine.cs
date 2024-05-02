@@ -17,8 +17,11 @@ public class AIStateMachine : MonoBehaviour
     public Fighter fighter;
     public Fighter enemy;
     public float horizontalInput;
+    public Transform LL;
+    public Transform RL;
+    public Transform FZ;
 
-    private float actionCooldown = 0.1f; 
+    private float actionCooldown = 0.2f; 
     private float lastActionTime; 
 
     public void ProcessState()
@@ -58,7 +61,7 @@ public class AIStateMachine : MonoBehaviour
             SetState(State.Block);
         }
 
-        if (Vector3.Distance(fighter.getPosition(), enemy.getPosition()) < 2.0f)
+        if (Vector3.Distance(fighter.getPosition(), enemy.getPosition()) < 1.5f)
         {
             SetState(State.AttackOne);
         }
@@ -74,10 +77,22 @@ public class AIStateMachine : MonoBehaviour
     public void HandleMoving()
     {
         fighter.HandleMovement(horizontalInput, false, false, KeyCode.Space);
-        if(fighter.getPosition().x < -4.94f && fighter.getPosition().y < -2.2f)
+
+        if((fighter.getPosition().y < enemy.getPosition().y) && ShouldJump())
         {
             fighter.HandleMovement(horizontalInput, true, true, KeyCode.Space);
         }
+        
+        if(fighter.getPosition().x < LL.position.x && fighter.getPosition().y < FZ.position.y)
+        {
+            fighter.HandleMovement(horizontalInput, true, true, KeyCode.Space);
+        }
+
+        if(fighter.getPosition().x < RL.position.x && fighter.getPosition().y < FZ.position.y)
+        {
+            fighter.HandleMovement(horizontalInput, true, true, KeyCode.Space);
+        }
+
 
         if(horizontalInput == 0)
             SetState(State.Idle);
@@ -121,8 +136,13 @@ public class AIStateMachine : MonoBehaviour
         return Random.Range(0, 100) > 50;
     }
 
-    private bool ShouldBlock()
+    private bool ShouldJump()
     {
         return Random.Range(0, 100) > 50;
+    }
+
+    private bool ShouldBlock()
+    {
+        return Random.Range(0, 100) > 80;
     }
 }

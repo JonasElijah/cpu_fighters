@@ -18,6 +18,9 @@ public class PlayerTwoInput : PlayerInput
         stateMachine.fighter = fighter;
         stateMachine.enemyGameObject = GameObject.FindWithTag("PlayerOne");
         stateMachine.enemy = stateMachine.enemyGameObject.GetComponent<Fighter>();
+        stateMachine.RL = GameObject.FindWithTag("RL").GetComponent<Transform>();
+        stateMachine.LL = GameObject.FindWithTag("LL").GetComponent<Transform>();
+        stateMachine.FZ = GameObject.FindWithTag("FZ").GetComponent<Transform>();
 
         currentHealth = maxHealth;
         healthBar = GameObject.FindWithTag("PlayerTwoHealthBar");
@@ -97,6 +100,5 @@ public class PlayerTwoInput : PlayerInput
             //Transition to death screen   
         }
     }
-
 
 }

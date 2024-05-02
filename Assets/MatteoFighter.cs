@@ -1,6 +1,3 @@
-using UnityEngine;
-using System.Collections.Generic;
-
 public class MatteoFighter : Fighter
 {   
     protected float attackOneCooldown = 1f;
