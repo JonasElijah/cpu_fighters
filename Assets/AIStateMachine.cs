@@ -103,7 +103,7 @@ public class AIStateMachine : MonoBehaviour
     public Transform RL;
     public Transform FZ;
 
-    private float actionCooldown = 0.2f; 
+    private float actionCooldown = CharacterSelectionHandler.aiDifficulty; 
     private float lastActionTime; 
 
     private Dictionary<State, Action> stateActions;
@@ -141,6 +141,7 @@ public class AIStateMachine : MonoBehaviour
             horizontalInput = 0;
         else
             horizontalInput = DetermineDirection();
+
         if (Time.time - lastActionTime > actionCooldown)
         {
             stateActions[currentState]();
@@ -172,7 +173,8 @@ public class AIStateMachine : MonoBehaviour
                 SetState(State.AttackTwo);
             else
                 SetState(State.Moving);
-        }    }
+        }    
+    }
 
     private void HandleMoving()
     {
@@ -218,11 +220,11 @@ public class AIStateMachine : MonoBehaviour
         if (ShouldBlock())
         {
             fighter.block(KeyCode.U);
-        }
-        else
-        {
             SetState(State.Idle); 
-        }    
+        }
+        
+        SetState(State.Idle); 
+           
     }
 
     private bool ShouldShoot()

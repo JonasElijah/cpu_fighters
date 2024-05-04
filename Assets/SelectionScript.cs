@@ -1,6 +1,8 @@
 using Microsoft.Unity.VisualStudio.Editor;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SelectionScript : MonoBehaviour
 {
@@ -15,10 +17,15 @@ public class SelectionScript : MonoBehaviour
 
     public bool aiVal = false;
 
+    public TMP_Dropdown dropdown;
+
     // Start is called before the first frame update
     void Start()
     {
         P1[selectedCharacterP1].SetActive(true);
+        P2[selectedCharacterP2].SetActive(true);
+ 
+        
     }
 
     // Update is called once per frame
@@ -97,5 +104,24 @@ public class SelectionScript : MonoBehaviour
         CharacterSelectionHandler.playerOneSelect(selectedCharacterP1);
         CharacterSelectionHandler.playerTwoSelect(selectedCharacterP2,aiVal);
         SceneManager.LoadScene("DefaultArena");
+    }
+
+    public void DifficultyChanged()
+    {
+        switch (dropdown.value)
+        {
+            case 0:
+                Debug.Log("Easy difficulty selected");
+                CharacterSelectionHandler.aiDifficulty = 1.0f;
+                break;
+            case 1:
+                Debug.Log("Medium difficulty selected");
+                CharacterSelectionHandler.aiDifficulty = 0.2f;
+                break;
+            case 2:
+                Debug.Log("Hard difficulty selected");
+                CharacterSelectionHandler.aiDifficulty = 0.005f;
+                break;
+        }
     }
 }
