@@ -1,16 +1,98 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
+
+// public class AIStateMachine : MonoBehaviour
+// {
+    
+
+   
+
+//     public void ProcessState()
+//     {
+//         // if (Vector3.Distance(fighter.getPosition(), enemy.getPosition()) < 1.5f)
+//         //     horizontalInput = 0;
+//         // else
+//         //     horizontalInput = DetermineDirection();
+
+//         float squaredDist = (fighter.getPosition() - enemy.getPosition()).sqrMagnitude;
+//         if (squaredDist < 2.25f) 
+//             horizontalInput = 0;
+//         else
+//             horizontalInput = DetermineDirection();
+
+
+//         Debug.Log("VELOCITY: " + fighter.rb.velocity);
+//         if (Time.time - lastActionTime > actionCooldown)
+//         {
+//             switch (currentState)
+//             {
+//                 case State.Idle:
+//                     HandleIdle();
+//                     break;
+//                 case State.Moving:
+//                     HandleMoving();
+//                     break;
+//                 case State.AttackOne:
+//                     HandleAttackOne();
+//                     break;
+//                 case State.AttackTwo:
+//                     HandleAttackTwo();
+//                     break;
+//                 case State.Block:
+//                     HandleBlock();
+//                     break;
+//             }
+//         }
+//     }
+
+//     public void HandleIdle()
+//     {
+        
+//     }
+
+//     public void HandleMoving()
+//     {
+        
+//     }
+
+//     public void HandleAttackOne()
+//     {
+        
+//     }
+
+//     private void HandleAttackTwo()
+//     {
+        
+//     }
+
+//     private void HandleBlock()
+//     {
+        
+// }
+
+
+
+
+//     private void SetState(State newState)
+// {
+//     if (currentState != newState)
+//     {
+//         currentState = newState;
+//         lastActionTime = Time.time;
+//         Debug.Log("State changed to: " + newState);
+//     }
+// }
+
+
+
+
+
+// }
+
 
 public class AIStateMachine : MonoBehaviour
 {
-    public enum State
-    {
-        Idle,
-        AttackOne,
-        AttackTwo,
-        Block,
-        Moving
-    }
-
     public Transform playerTransform; 
     public State currentState;
     public GameObject enemyGameObject;
@@ -24,38 +106,50 @@ public class AIStateMachine : MonoBehaviour
     private float actionCooldown = 0.2f; 
     private float lastActionTime; 
 
+    private Dictionary<State, Action> stateActions;
+
+    public enum State
+    {
+        Idle,
+        AttackOne,
+        AttackTwo,
+        Block,
+        Moving
+    }
+
+    private void Awake()
+    {
+        InitializeStateActions();
+    }
+
+    private void InitializeStateActions()
+    {
+        stateActions = new Dictionary<State, Action>
+        {
+            { State.Idle, HandleIdle },
+            { State.Moving, HandleMoving },
+            { State.AttackOne, HandleAttackOne },
+            { State.AttackTwo, HandleAttackTwo },
+            { State.Block, HandleBlock }
+        };
+    }
+
     public void ProcessState()
     {
-         if (Vector3.Distance(fighter.getPosition(), enemy.getPosition()) < 1.5f)
+        float squaredDist = (fighter.getPosition() - enemy.getPosition()).sqrMagnitude;
+        if (squaredDist < 2.25f) 
             horizontalInput = 0;
-         else
+        else
             horizontalInput = DetermineDirection();
-
         if (Time.time - lastActionTime > actionCooldown)
         {
-            switch (currentState)
-            {
-                case State.Idle:
-                    HandleIdle();
-                    break;
-                case State.Moving:
-                    HandleMoving();
-                    break;
-                case State.AttackOne:
-                    HandleAttackOne();
-                    break;
-                case State.AttackTwo:
-                    HandleAttackTwo();
-                    break;
-                case State.Block:
-                    HandleBlock();
-                    break;
-            }
+            stateActions[currentState]();
         }
     }
 
-    public void HandleIdle()
+    private void HandleIdle()
     {
+        fighter.rb.velocity = Vector3.zero;
         if(enemy.playerCombat.IsPunching || enemy.playerCombat.IsShooting)
         {
             SetState(State.Block);
@@ -63,7 +157,14 @@ public class AIStateMachine : MonoBehaviour
 
         if (Vector3.Distance(fighter.getPosition(), enemy.getPosition()) < 1.5f)
         {
-            SetState(State.AttackOne);
+            if (!IsFacingTarget())
+            {
+                TurnTowardsTarget();
+            }
+            else
+            {
+                SetState(State.AttackOne);
+            }
         }
         else
         {
@@ -71,13 +172,11 @@ public class AIStateMachine : MonoBehaviour
                 SetState(State.AttackTwo);
             else
                 SetState(State.Moving);
-        }
-    }
+        }    }
 
-    public void HandleMoving()
+    private void HandleMoving()
     {
         fighter.HandleMovement(horizontalInput, false, false, KeyCode.Space);
-
         if((fighter.getPosition().y < enemy.getPosition().y) && ShouldJump())
         {
             fighter.HandleMovement(horizontalInput, true, true, KeyCode.Space);
@@ -95,29 +194,65 @@ public class AIStateMachine : MonoBehaviour
 
 
         if(horizontalInput == 0)
-            SetState(State.Idle);
+            SetState(State.Idle);    
     }
 
-    public void HandleAttackOne()
+    private void HandleAttackOne()
     {
+        fighter.rb.velocity = Vector3.zero;
         fighter.AttackOne();
         SetState(State.Idle);
     }
 
     private void HandleAttackTwo()
     {
+        fighter.rb.velocity = Vector3.zero;
         fighter.AttackTwo();
         SetState(State.Idle);
     }
 
     private void HandleBlock()
     {
-        if(ShouldBlock())
-            fighter.block(KeyCode.E);
+        Debug.Log("Handling Block: Enemy Punching: " + enemy.playerCombat.IsPunching + ", Enemy Shooting: " + enemy.playerCombat.IsShooting);
+        fighter.rb.velocity = Vector3.zero;
+        if (ShouldBlock())
+        {
+            fighter.block(KeyCode.U);
+        }
         else
-            fighter.HandleMovement(0, true, true, KeyCode.Space);
+        {
+            SetState(State.Idle); 
+        }    
+    }
 
-        SetState(State.Idle);
+    private bool ShouldShoot()
+    {
+        return UnityEngine.Random.Range(0, 100) > 50;
+    }
+
+    private bool ShouldJump()
+    {
+        return UnityEngine.Random.Range(0, 100) > 50;
+    }
+
+    private bool ShouldBlock()
+    {
+        return UnityEngine.Random.Range(0, 100) > 50;
+    }
+   
+    private void TurnTowardsTarget()
+    {
+        Vector3 scale = fighter.transform.localScale;
+        scale.x = -scale.x; 
+        fighter.transform.localScale = scale;
+    }
+
+    public bool IsFacingTarget()
+    {
+        bool isFacingRight = fighter.transform.localScale.x > 0;
+        bool enemyIsToRight = enemy.transform.position.x > fighter.transform.position.x;
+
+        return isFacingRight == enemyIsToRight;
     }
 
     protected float DetermineDirection()
@@ -127,22 +262,11 @@ public class AIStateMachine : MonoBehaviour
 
     private void SetState(State newState)
     {
-        currentState = newState;
-        lastActionTime = Time.time;
-    }
-
-    private bool ShouldShoot()
-    {
-        return Random.Range(0, 100) > 50;
-    }
-
-    private bool ShouldJump()
-    {
-        return Random.Range(0, 100) > 50;
-    }
-
-    private bool ShouldBlock()
-    {
-        return Random.Range(0, 100) > 80;
+        if (currentState != newState)
+        {
+            currentState = newState;
+            lastActionTime = Time.time;
+            Debug.Log($"State changed to: {newState}");
+        }
     }
 }
