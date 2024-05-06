@@ -103,7 +103,7 @@ public class SelectionScript : MonoBehaviour
     {
         CharacterSelectionHandler.playerOneSelect(selectedCharacterP1);
         CharacterSelectionHandler.playerTwoSelect(selectedCharacterP2,aiVal);
-        SceneManager.LoadScene("DefaultArena");
+        SceneManager.LoadScene("ArenaSelection");
     }
 
     public void DifficultyChanged()
@@ -123,5 +123,10 @@ public class SelectionScript : MonoBehaviour
                 CharacterSelectionHandler.aiDifficulty = 0.005f;
                 break;
         }
+    }
+
+    public void back()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }

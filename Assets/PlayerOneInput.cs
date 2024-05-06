@@ -25,18 +25,19 @@ public class PlayerOneInput : PlayerInput
     protected void Update()
     {
         GameManager.setPlayerOneHealth(currentHealth);
-        fighter.HandleMovement(Input.GetAxisRaw("Horizontal_Player1"), Input.GetButtonDown("Jump_Player1"), Input.GetButton("Jump_Player1"), KeyCode.Space);
-        if (Input.GetButtonDown("Attack1_Player1"))
+        if(!PauseMenu.isPaused)
+            fighter.HandleMovement(Input.GetAxisRaw("Horizontal_Player1"), Input.GetButtonDown("Jump_Player1"), Input.GetButton("Jump_Player1"), KeyCode.Space);
+        if (Input.GetButtonDown("Attack1_Player1") && !PauseMenu.isPaused)
         {
             fighter.AttackOne();
         }
 
-        if (Input.GetButtonDown("Attack2_Player1"))
+        if (Input.GetButtonDown("Attack2_Player1") && !PauseMenu.isPaused)
         {
             fighter.AttackTwo();
         }
 
-        if (Input.GetButton("block_player1"))
+        if (Input.GetButton("block_player1") && !PauseMenu.isPaused)
         {
             fighter.block(KeyCode.E);
         }

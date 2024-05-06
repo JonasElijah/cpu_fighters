@@ -136,6 +136,11 @@ public class AIStateMachine : MonoBehaviour
 
     public void ProcessState()
     {
+        if(fighter.IsBlocking && currentState != State.Block)
+        {
+            fighter.IsBlocking = false;
+        }
+
         float squaredDist = (fighter.getPosition() - enemy.getPosition()).sqrMagnitude;
         if (squaredDist < 2.25f) 
             horizontalInput = 0;
@@ -224,7 +229,6 @@ public class AIStateMachine : MonoBehaviour
         }
         
         SetState(State.Idle); 
-           
     }
 
     private bool ShouldShoot()

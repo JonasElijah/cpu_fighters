@@ -47,18 +47,19 @@ public class PlayerTwoInput : PlayerInput
 
     private void HandleHumanInput()
     {
-        fighter.HandleMovement(Input.GetAxisRaw("Horizontal_Player2"), Input.GetButtonDown("Jump_Player2"), Input.GetButton("Jump_Player2"), KeyCode.I);
-        if (Input.GetButtonDown("Attack1_Player2"))
+        if(!PauseMenu.isPaused)
+            fighter.HandleMovement(Input.GetAxisRaw("Horizontal_Player2"), Input.GetButtonDown("Jump_Player2"), Input.GetButton("Jump_Player2"), KeyCode.I);
+        if (Input.GetButtonDown("Attack1_Player2") && !PauseMenu.isPaused)
         {
             fighter.AttackOne();
         }
 
-        if (Input.GetButtonDown("Attack2_Player2"))
+        if (Input.GetButtonDown("Attack2_Player2") && !PauseMenu.isPaused)
         {
             fighter.AttackTwo();
         }
 
-        if (Input.GetButton("block_player2"))
+        if (Input.GetButton("block_player2") && !PauseMenu.isPaused)
         {
             fighter.block(KeyCode.U);
         }
@@ -66,7 +67,7 @@ public class PlayerTwoInput : PlayerInput
 
     private void HandleAIInput()
     {
-        if (stateMachine != null)
+        if (stateMachine != null && !PauseMenu.isPaused)
         {
             stateMachine.ProcessState();
         }

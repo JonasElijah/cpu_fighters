@@ -14,6 +14,11 @@ public class MenuHandler : MonoBehaviour
         SceneManager.LoadScene("CharacterSelect");
     }
 
+    public void Settings()
+    {
+        SceneManager.LoadScene("Settings");
+    }
+
     public void Quit()
     {
         Application.Quit();
