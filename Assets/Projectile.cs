@@ -5,6 +5,11 @@ public class Projectile : MonoBehaviour
     private Rigidbody2D rb;
     void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.gameObject.tag == "Ground") 
+        {
+            Destroy(gameObject); 
+        }
+        
         if(other.gameObject.tag == "PlayerTwo")
         {
             Debug.Log("HIHIHIHIHIASDFLADJFKLDFJLDF");

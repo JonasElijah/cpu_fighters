@@ -9,18 +9,24 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: ae6b1cc632e8542d1acf2bb95bc8646d
   - enabled: 1
+    path: Assets/Scenes/Settings.unity
+    guid: 7be62e1b4ebad4f90ae97875b37fac0b
+  - enabled: 1
     path: Assets/Scenes/CharacterSelect.unity
     guid: 0746a023c002c4cbcbd72fd9ab32b0ca
+  - enabled: 1
+    path: Assets/Scenes/ArenaSelection.unity
+    guid: b5eb44f3df9fc4c828a481387b9c29ee
   - enabled: 1
     path: Assets/Scenes/DefaultArena.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
+    path: Assets/Scenes/DesertScene.unity
+    guid: 0f8a9484f2bc44897975e9189f2cbe26
+  - enabled: 1
+    path: Assets/Scenes/CityScene.unity
+    guid: 1b36035e0deb244f985f7c029cecaac4
+  - enabled: 1
     path: Assets/Scenes/EndScene.unity
     guid: 34fa1dc1922b64197b56733c719265d1
-  - enabled: 1
-    path: Assets/Scenes/Settings.unity
-    guid: 7be62e1b4ebad4f90ae97875b37fac0b
-  - enabled: 1
-    path: Assets/Scenes/ArenaSelection.unity
-    guid: b5eb44f3df9fc4c828a481387b9c29ee
   m_configObjects: {}

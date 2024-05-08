@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using System.Data;
 
 public abstract class Fighter : MonoBehaviour
 {
@@ -16,12 +17,14 @@ public abstract class Fighter : MonoBehaviour
     protected float jumpTime;
     protected bool isMoving;
     protected bool isGrounded;
+    protected bool isPlatform;
     protected bool touchingCharacter;
     private float currentVelocity;
     public bool IsBlocking;
     private int jumpCount = 0; 
     private int maxJumps = 1; 
     protected KeyCode blockKey;
+
 
     // Nerd Info
     [Header("Nerd Info")]
@@ -34,6 +37,7 @@ public abstract class Fighter : MonoBehaviour
     public Transform attackPoint;
     [SerializeField] protected Animator animator;
     [SerializeField] protected LayerMask ground;
+    [SerializeField] protected LayerMask platform;
     [SerializeField] protected LayerMask character;
     public SpriteRenderer blockSprite;
 
@@ -53,6 +57,8 @@ public abstract class Fighter : MonoBehaviour
     protected void Update()
     {
         isGrounded = Physics2D.OverlapCircle(feetPos.position, 0.5f, ground);
+        //isPlatform = Physics2D.OverlapCircle(feetPos.position, 0.5f, platform);
+        //Debug.Log(isPlatform);
         if(IsBlocking)
         {
             blockSprite.enabled =true;
@@ -236,12 +242,10 @@ public abstract class Fighter : MonoBehaviour
         return rb.position;
     }
 
-
     public abstract float getAttackOneCooldown();
     public abstract float getAttackOneDamage();
     public abstract float getProjectileSpeed();
     public abstract float getAttackTwoCooldown();
-
 
 }
 

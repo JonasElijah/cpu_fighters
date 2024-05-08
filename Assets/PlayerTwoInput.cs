@@ -21,6 +21,8 @@ public class PlayerTwoInput : PlayerInput
         stateMachine.RL = GameObject.FindWithTag("RL").GetComponent<Transform>();
         stateMachine.LL = GameObject.FindWithTag("LL").GetComponent<Transform>();
         stateMachine.FZ = GameObject.FindWithTag("FZ").GetComponent<Transform>();
+        stateMachine.actionCooldown = CharacterSelectionHandler.aiDifficultyp2;
+
 
         currentHealth = maxHealth;
         healthBar = GameObject.FindWithTag("PlayerTwoHealthBar");
@@ -34,7 +36,7 @@ public class PlayerTwoInput : PlayerInput
         fighter.isPlayerTwo();
     }
 
-    void Update()
+    void LateUpdate()
     {
         GameManager.setPlayerTwoHealth(currentHealth);
         slider.value = currentHealth;

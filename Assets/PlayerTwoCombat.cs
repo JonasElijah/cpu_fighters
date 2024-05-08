@@ -32,7 +32,7 @@ public class PlayerTwoCombat : PlayerCombat
         {
             return;
         }
-        
+        GetComponent<AudioSource>().Play();
 
         IsPunching = true;
         timeSinceLastAttackOne = 0;

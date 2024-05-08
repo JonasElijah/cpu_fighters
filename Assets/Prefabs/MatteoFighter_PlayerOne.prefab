@@ -51,6 +51,7 @@ GameObject:
   - component: {fileID: 7642987175865686006}
   - component: {fileID: 8282488638639195896}
   - component: {fileID: 1676367713854209297}
+  - component: {fileID: 8241323851415864103}
   m_Layer: 3
   m_Name: MatteoFighter_PlayerOne
   m_TagString: PlayerOne
@@ -167,8 +168,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 8300000, guid: c6cc654710a1046978b47a1e15dc7485, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -286,9 +287,11 @@ MonoBehaviour:
   spriteRenderer: {fileID: 9169829857519252426}
   originalColor: {r: 0, g: 0, b: 0, a: 0}
   playerIndicator: {fileID: 0}
+  isAI: 0
   maxHealth: 10
   currentHealth: 0
   damageCooldown: 0.5
+  stateMachine: {fileID: 0}
 --- !u!114 &8515100820933258401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,6 +318,9 @@ MonoBehaviour:
   ground:
     serializedVersion: 2
     m_Bits: 64
+  platform:
+    serializedVersion: 2
+    m_Bits: 256
   character:
     serializedVersion: 2
     m_Bits: 8
@@ -447,6 +453,28 @@ MonoBehaviour:
     m_Bits: 8
   player1: {fileID: 7629607232141224348}
   projectile: {fileID: 7266875641970085025, guid: fc35ba76d19cc4eb48662af08fd799d1, type: 3}
+--- !u!114 &8241323851415864103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2097953814057205012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e56160e826f04ab18559c99bff3fb2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTransform: {fileID: 442812168284004315}
+  currentState: 0
+  enemyGameObject: {fileID: 0}
+  fighter: {fileID: 8515100820933258401}
+  enemy: {fileID: 0}
+  horizontalInput: 0
+  LL: {fileID: 0}
+  RL: {fileID: 0}
+  FZ: {fileID: 0}
+  actionCooldown: 0
 --- !u!1 &2713046261165029579
 GameObject:
   m_ObjectHideFlags: 0

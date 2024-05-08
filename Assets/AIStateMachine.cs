@@ -103,7 +103,7 @@ public class AIStateMachine : MonoBehaviour
     public Transform RL;
     public Transform FZ;
 
-    private float actionCooldown = CharacterSelectionHandler.aiDifficulty; 
+    public float actionCooldown;
     private float lastActionTime; 
 
     private Dictionary<State, Action> stateActions;
@@ -117,7 +117,7 @@ public class AIStateMachine : MonoBehaviour
         Moving
     }
 
-    private void Awake()
+    private void Start()
     {
         InitializeStateActions();
     }

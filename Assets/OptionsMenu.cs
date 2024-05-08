@@ -2,19 +2,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
-
+using System.Collections;
 
 public class OptionsMenu : MonoBehaviour
 {
     public TMP_Dropdown resolutionDropdown;
     public Toggle vsyncToggle;
     public Toggle fullscreenToggle;
-    // public Slider masterVolumeSlider;
-    // public Slider musicVolumeSlider;
-    // public Slider sfxVolumeSlider;
-    // public Slider brightnessSlider;
-    // public Slider contrastSlider;
-    // public Slider colorationSlider;
+    public GameObject back;
+    public GameObject res;
+
+
 
     Resolution[] resolutions;
 
@@ -23,9 +21,9 @@ public class OptionsMenu : MonoBehaviour
         resolutions = Screen.resolutions;
         resolutionDropdown.ClearOptions();
         int currentResolutionIndex = 0;
+
         for (int i = 0; i < resolutions.Length; i++)
         {
-            Debug.Log(resolutions[i]);
             string option = resolutions[i].width + " x " + resolutions[i].height;
             resolutionDropdown.options.Add(new TMP_Dropdown.OptionData(option));
 
@@ -35,78 +33,76 @@ public class OptionsMenu : MonoBehaviour
                 currentResolutionIndex = i;
             }
         }
+
+        LoadSettings(currentResolutionIndex);
+
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
-        //LoadSettings();
     }
 
-    public void SetResolution(int i)
+    public void SetResolution(int resolutionIndex)
     {
-        // Debug.Log(resolutionDropdown.value);
-        // Debug.Log(resolutions[resolutionDropdown.value]);
-
-        Resolution resolution = resolutions[resolutionDropdown.value];
+        res.GetComponent<AudioSource>().Play();
+        Resolution resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
-        int screenWidth = Screen.width;
-        int screenHeight = Screen.height;
-        Debug.Log("Current Resolution: " + screenWidth + "x" + screenHeight);
     }
 
     public void SetFullscreen(bool isFullscreen)
     {
+        vsyncToggle.GetComponent<AudioSource>().Play();
         Screen.fullScreen = isFullscreen;
     }
 
     public void SetVSync(bool isVSync)
     {
+        vsyncToggle.GetComponent<AudioSource>().Play();
         QualitySettings.vSyncCount = isVSync ? 1 : 0;
     }
 
-    /*
-    public void SetMasterVolume(float volume)
+    public void SaveSettings()
     {
-        AudioListener.volume = volume;
+        PlayerPrefs.SetInt("ResolutionIndex", resolutionDropdown.value);
+
+        PlayerPrefs.SetInt("Fullscreen", fullscreenToggle.isOn ? 1 : 0);
+
+        PlayerPrefs.SetInt("VSync", vsyncToggle.isOn ? 1 : 0);
+
+        PlayerPrefs.Save();
+
+        Debug.Log("Settings have been saved!");
     }
 
-    public void SetMusicVolume(float volume)
+    private void LoadSettings(int defaultResolutionIndex)
     {
-        // Assuming music source is tagged as Music
-        GameObject.FindGameObjectWithTag("Music").GetComponent<AudioSource>().volume = volume;
-    }
-
-    public void SetSFXVolume(float volume)
-    {
-        // Assuming SFX sources are tagged as SFX
-        foreach (var source in GameObject.FindGameObjectsWithTag("SFX"))
+        int savedResolutionIndex = PlayerPrefs.GetInt("ResolutionIndex", defaultResolutionIndex);
+        if (savedResolutionIndex >= 0 && savedResolutionIndex < resolutions.Length)
         {
-            source.GetComponent<AudioSource>().volume = volume;
+            Resolution resolution = resolutions[savedResolutionIndex];
+            Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+            resolutionDropdown.value = savedResolutionIndex;
         }
-        PlayerPrefs.SetFloat("SFXVolumePreference", volume);
+
+        bool isFullscreen = PlayerPrefs.GetInt("Fullscreen", 1) == 1;
+        Screen.fullScreen = isFullscreen;
+        fullscreenToggle.isOn = isFullscreen;
+
+        bool isVSync = PlayerPrefs.GetInt("VSync", 0) == 1;
+        QualitySettings.vSyncCount = isVSync ? 1 : 0;
+        vsyncToggle.isOn = isVSync;
     }
 
-    public void SetBrightness(float brightness)
+    public void Back()
     {
-        // Implement brightness change logic here
-        PlayerPrefs.SetFloat("BrightnessPreference", brightness);
+        StartCoroutine(PlaySoundAndBack(back, "MainMenu"));
     }
 
-    public void SetContrast(float contrast)
+    IEnumerator PlaySoundAndBack(GameObject obj, string sceneName)
     {
-        // Implement contrast change logic here
-        PlayerPrefs.SetFloat("ContrastPreference", contrast);
-    }
+        AudioSource audio = obj.GetComponent<AudioSource>();
+        audio.Play();
+        yield return new WaitForSeconds(audio.clip.length); 
+        SceneManager.LoadScene(sceneName);
+    } 
 
-    public void SetColoration(float coloration)
-    {
-        // Implement coloration change logic here
-        PlayerPrefs.SetFloat("ColorationPreference", coloration);
-    }
-    */
-
-    public void back()
-    {
-        SceneManager.LoadScene("MainMenu");
-
-    }
 
 }

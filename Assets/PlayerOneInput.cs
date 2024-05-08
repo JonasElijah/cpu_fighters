@@ -1,31 +1,53 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 public class PlayerOneInput : PlayerInput
 {
+    public bool isAI = false;
+
     public float maxHealth = 10.0f;
     public float currentHealth;
     public float damageCooldown = 0.5f;
 
-    protected void Start()
+    public AIStateMachine stateMachine;
+
+    void Start()
     {
+        stateMachine = GetComponent<AIStateMachine>();
+        stateMachine.fighter = fighter;
+        stateMachine.enemyGameObject = GameObject.FindWithTag("PlayerTwo");
+        stateMachine.enemy = stateMachine.enemyGameObject.GetComponent<Fighter>();
+        stateMachine.RL = GameObject.FindWithTag("RL").GetComponent<Transform>();
+        stateMachine.LL = GameObject.FindWithTag("LL").GetComponent<Transform>();
+        stateMachine.FZ = GameObject.FindWithTag("FZ").GetComponent<Transform>();
+        stateMachine.actionCooldown = CharacterSelectionHandler.aiDifficultyp1;
+
         currentHealth = maxHealth;
-        // character = GetComponent<FightManager>().characters[CharacterSelectionHandler.playerOneCharacter];
         healthBar = GameObject.FindWithTag("PlayerOneHealthBar");
         playerIndicator = GameObject.FindWithTag("PlayerOneIndicator");
         playerIndicator.GetComponent<PlayerIndicator>().target = fighter.playerIndicatePos;
         slider = healthBar.GetComponent<Slider>();
-        // fighter = character.GetComponent<Fighter>();
+
         if (spriteRenderer == null)
             spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
     }
 
-    protected void Update()
+    void LateUpdate()
     {
         GameManager.setPlayerOneHealth(currentHealth);
-        if(!PauseMenu.isPaused)
+        slider.value = currentHealth;
+
+        if (isAI)
+            HandleAIInput();
+        else
+            HandleHumanInput();
+    }
+
+    private void HandleHumanInput()
+    {
+        if (!PauseMenu.isPaused)
             fighter.HandleMovement(Input.GetAxisRaw("Horizontal_Player1"), Input.GetButtonDown("Jump_Player1"), Input.GetButton("Jump_Player1"), KeyCode.Space);
         if (Input.GetButtonDown("Attack1_Player1") && !PauseMenu.isPaused)
         {
@@ -41,9 +63,32 @@ public class PlayerOneInput : PlayerInput
         {
             fighter.block(KeyCode.E);
         }
-
-        slider.value = currentHealth;
     }
+
+    private void HandleAIInput()
+    {
+        if (stateMachine != null && !PauseMenu.isPaused)
+        {
+            stateMachine.ProcessState();
+        }
+    }
+
+    private IEnumerator FlashColor(float duration)
+    {
+        spriteRenderer.color = Color.red;
+        yield return new WaitForSeconds(duration);
+        spriteRenderer.color = originalColor;
+    }
+
+    private bool ShouldBlock()
+    {
+        return Random.Range(0, 100) > 50;
+    }
+
+    // private bool ShouldAttack()
+    // {
+    //     return Random.Range(0, 100) > 30;
+    // }
 
     public override void TakeDamage(float amount)
     {
@@ -57,20 +102,4 @@ public class PlayerOneInput : PlayerInput
         }
     }
 
-    public float GetHealth()
-    {
-        return currentHealth;
-    }
-
-    public Fighter GetFighter()
-    {
-        return fighter;
-    }
-
-    private IEnumerator FlashColor(float duration)
-    {
-        spriteRenderer.color = Color.red;
-        yield return new WaitForSeconds(duration);
-        spriteRenderer.color = originalColor;
-    }
 }

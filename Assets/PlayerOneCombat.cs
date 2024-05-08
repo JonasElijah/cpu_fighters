@@ -36,6 +36,7 @@ public class PlayerOneCombat : PlayerCombat
         {
             return;
         }
+        GetComponent<AudioSource>().Play();
 
         IsPunching = true;
         timeSinceLastAttackOne = 0;

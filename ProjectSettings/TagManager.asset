@@ -16,6 +16,7 @@ TagManager:
   - RL
   - LL
   - FZ
+  - Platform
   layers:
   - Default
   - TransparentFX
@@ -25,7 +26,7 @@ TagManager:
   - UI
   - Ground
   - Pause
-  - 
+  - Platform
   - 
   - 
   - 

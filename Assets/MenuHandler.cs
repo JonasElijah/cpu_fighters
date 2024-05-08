@@ -1,26 +1,51 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class MenuHandler : MonoBehaviour
 {
+    public GameObject fight;
+    public GameObject settings;
+    public GameObject quit;
+
     public void Start()
     {
-        CharacterSelectionHandler.playerOneCharacter = -1;
-        CharacterSelectionHandler.playerTwoCharacter = -1;
+        PlaySound(fight); 
     }
     
     public void Play()
     {
-        SceneManager.LoadScene("CharacterSelect");
+        StartCoroutine(PlaySoundAndLoadScene(fight, "CharacterSelect"));
     }
 
     public void Settings()
     {
-        SceneManager.LoadScene("Settings");
+        StartCoroutine(PlaySoundAndLoadScene(settings, "Settings"));
     }
 
     public void Quit()
     {
+        StartCoroutine(PlaySoundAndQuit(quit));
+    }
+
+    IEnumerator PlaySoundAndLoadScene(GameObject obj, string sceneName)
+    {
+        AudioSource audio = obj.GetComponent<AudioSource>();
+        audio.Play();
+        yield return new WaitForSeconds(audio.clip.length); 
+        SceneManager.LoadScene(sceneName);
+    }
+
+    IEnumerator PlaySoundAndQuit(GameObject obj)
+    {
+        AudioSource audio = obj.GetComponent<AudioSource>();
+        audio.Play();
+        yield return new WaitForSeconds(audio.clip.length); 
         Application.Quit();
+    }
+
+    public void PlaySound(GameObject obj)
+    {
+        obj.GetComponent<AudioSource>().Play();
     }
 }
