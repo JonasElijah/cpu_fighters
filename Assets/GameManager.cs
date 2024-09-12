@@ -1,26 +1,40 @@
-using UnityEngine.SceneManagement;
-
-public static class GameManager 
+public class GameManager
 {
-    public static float playerOneHealth = 10;
-    public static float playerTwoHealth = 10;
+    public static GameManager instance;
 
-    public static bool checkGame()
+    public float playerOneHealth = 10;
+    public float playerTwoHealth = 10;
+
+    private GameManager() { }
+
+    public static GameManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = new GameManager();
+            }
+            return instance;
+        }
+    }
+
+    public bool checkGame()
     {
         return playerOneHealth <= 0 || playerTwoHealth <= 0;
     }
 
-    public static void endGame()
+    public void endGame()
     {
         SceneManager.LoadScene("EndScene");
     }
 
-    public static void setPlayerOneHealth(float x)
+    public void setPlayerOneHealth(float x)
     {
         playerOneHealth = x;
     }
 
-    public static void setPlayerTwoHealth(float x)
+    public void setPlayerTwoHealth(float x)
     {
         playerTwoHealth = x;
     }

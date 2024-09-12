@@ -3,17 +3,30 @@ using UnityEngine.SceneManagement;
 
 public class FightManager : MonoBehaviour
 {
+    public static FightManager instance;
+    
     public GameObject[] P1;
     public GameObject[] P2;
-
     public Transform LeftLedge;
     public Transform RightLedge;
     public Transform FallZone;
-
     public GameObject playerOne;
     public GameObject playerTwo;
-
     public GameObject MovingPlatform;
+
+    void Awake()
+    {
+        // Ensure that only one instance of FightManager exists
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);  // Prevent destruction on scene load
+        }
+        else
+        {
+            Destroy(gameObject);  // Destroy duplicates
+        }
+    }
 
     void Start()
     {
@@ -26,7 +39,7 @@ public class FightManager : MonoBehaviour
     {
         if (GameManager.checkGame())
         {
-            if(MovingPlatform)
+            if (MovingPlatform)
                 MovingPlatform.SetActive(false);
             SceneManager.LoadScene("EndScene");
         }
@@ -40,5 +53,4 @@ public class FightManager : MonoBehaviour
         playerOne.GetComponent<PlayerOneInput>().isAI = CharacterSelectionHandler.playerOneAI;
         playerTwo.GetComponent<PlayerTwoInput>().isAI = CharacterSelectionHandler.playerTwoAI;
     }
-
 }
